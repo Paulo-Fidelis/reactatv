@@ -1,155 +1,105 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Input, Icon , Button , ListItem} from 'react-native-elements';
-import { SafeAreaView } from 'react-native-web';
-import { NavigationContainer} from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, Text, View} from 'react-native';
+import { ListItem } from 'react-native-elements';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { Ionicons } from '@expo/vector-icons';
-import { useRoute } from '@react-navigation/native';
-
-const Stack = createNativeStackNavigator();
+import { SafeAreaView } from 'react-native-web';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const contatosLista = [
   {
     nome: 'Marcos Andrade',
     icone: 'user',
-    telefone: '81 988553424'
+    text: 'Olá, como você está?',
+    time: '2m'
   },
   {
     nome: 'Patrícia Tavares',
     icone: 'user',
-    telefone:'81 998765332'
+    text: 'Vamos marcar um café?',
+    time: '10m'
   },
   {
     nome: 'Rodrigo Antunes',
     icone: 'user',
-    telefone: '81 987765525'
+    text: 'Oi, me ligue quando puder!',
+    time: '20m'
+  },
+  {
+    nome: 'Carlos Silva',
+    icone: 'user',
+    text: 'Tem novidades sobre o projeto?',
+    time: '30m'
+  },
+  {
+    nome: 'Lucas Costa',
+    icone: 'user',
+    text: 'Aquela tarefa já foi finalizada?',
+    time: '1h'
+  },
+  {
+    nome: 'Juliana Almeida',
+    icone: 'user',
+    text: 'Você vai na reunião amanhã?',
+    time: '2h'
+  },
+  {
+    nome: 'Fernanda Souza',
+    icone: 'user',
+    text: 'Preciso de ajuda com o relatório.',
+    time: '3h'
+  },
+  {
+    nome: 'Gustavo Lima',
+    icone: 'user',
+    text: 'Está disponível para uma reunião?',
+    time: '5h'
+  },
+  {
+    nome: 'Vanessa Martins',
+    icone: 'user',
+    text: 'Acabei de enviar o arquivo, verifica!',
+    time: '6h'
+  },
+  {
+    nome: 'Roberta Oliveira',
+    icone: 'user',
+    text: 'Vamos sair mais tarde?',
+    time: '1d'
   }
-]
+];
 
-export function HomeScreen({navigation}) {
+
+export default function App() {
   return (
-  <SafeAreaView style={styles.container}>
-    <View style={styles.containerheader}>
-      <Text style={styles.title}>Contatos </Text>
-      <Ionicons
-              name="add"
-              size={24}
-              color="black"
-              style={{ marginRight: 10 , marginLeft: '50%'}}
-              onPress={() => navigation.navigate('AddContato')}
-              />
-    </View>
+    <SafeAreaProvider>
+    <SafeAreaView style={styles.container}>
     <View style={styles.containerList}>
-    {
-    contatosLista.map((item, i) => (
-      <ListItem key={i} bottomDivider>
-        <AntDesign name={item.icone} />
-        <ListItem.Content>
-          <ListItem.Title>{item.nome}</ListItem.Title>
-          <ListItem.Title>{item.telefone}</ListItem.Title>
-          <ListItem.Title><Button style={styles.Button} title="Editar" onPress={() => navigation.navigate('EditContato', {nome:item.nome,telefone:item.telefone})}/></ListItem.Title>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
-    ))
-    }
-    </View>
-  </SafeAreaView>
-  );
-}
+    {contatosLista.map((item, i) => (
+        <ListItem key={i} bottomDivider>
+          <AntDesign name={item.icone} size={24} />
+          
+          <ListItem.Content style={styles.content}>
+            <View style={styles.row}>
+              <ListItem.Title style={styles.nome}>{item.nome}</ListItem.Title>
+            </View>
+            <View style={styles.row}>
+            <View style={styles.time}>
+            <ListItem.Subtitle style={styles.text}>{item.text}</ListItem.Subtitle>
+              <ListItem.Subtitle style={styles.time}>{item.time}</ListItem.Subtitle>
+              </View>
+            </View>
+          </ListItem.Content>
 
-export function CadastroScreen() {
-  return (
-  <SafeAreaView style={styles.container}>
-    <View style={styles.containerheader}>
-      <Text style={styles.title}>Cadastro</Text>
+          
+        </ListItem>
+      ))}
     </View>
-    <View style={styles.container}>
-      <Input style={styles.Input} placeholder='Nome'/>
-      <Input style={styles.Input} placeholder='CPF'/>
-      <Input style={styles.Input} placeholder='Email'/>
-      <Input style={styles.Input} placeholder="Senha" secureTextEntry={true} />
-
-      <Button style={styles.Button} title="Cadastrar"/>
-    </View>
-  </SafeAreaView>
-  );
-}
-
-export function CadContato() {
-  return (
-  <SafeAreaView style={styles.container}>
-    <View style={styles.containerheader}>
-      <Text style={styles.title}>Cadastrar contato</Text>
-    </View>
-    <View style={styles.container}>
-      <Input style={styles.Input} placeholder='nome'/>
-      <Input style={styles.Input} placeholder='email'/>
-      <Input style={styles.Input} placeholder='Telefone'/>
-
-      <Button style={styles.Button} title="adicionar"/>
-    </View>
-  </SafeAreaView>
-  );
-}
-
-  function App() {
-    return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Home" component={HomeScreen}/>
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Cadastro" component={CadastroScreen} />
-        <Stack.Screen name="AddContato" component={CadContato} />
-        <Stack.Screen name="EditContato" component={EditContat} />
-      </Stack.Navigator>
-    </NavigationContainer>
-    );
-  }
-function LoginScreen({navigation}) {
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <AntDesign 
-          name="user" 
-          size={30} 
-          color="#1890ff" 
-          style={{ margin: 10 }}
-        />
-        <Input style={styles.Input} placeholder='Email'/>
-        <Input style={styles.Input} placeholder="Senha" secureTextEntry={true} />
-        <Button style={styles.Button} title="Logar" onPress={() => navigation.navigate('Home')}/>
-        <Button style={styles.Button} title="Cadastrar" onPress={() => navigation.navigate('Cadastro')}/>
-        <StatusBar style="auto" />
-      </View>
+      <StatusBar style="auto" />
     </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
-
-function EditContat({route}){
-  const { nome, telefone } = route.params;
-  
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.containerheader}>
-        <Text style={styles.title}> Editar contato</Text>
-      </View>
-      <View style={styles.container}>
-        <Text>Bem-vindo, {nome}!</Text>
-        <Text>Telefone: {telefone}</Text>
-        <Input style={styles.Input} placeholder='Nome' value={nome}/>
-        <Input style={styles.Input} placeholder='Email'/>
-        <Input style={styles.Input} placeholder='Telefone' value={telefone}/>
-        <Button style={styles.Button} title="adicionar"/>
-      </View>
-    </SafeAreaView>
-    );
-}
-
-export default App;
 
 const styles = StyleSheet.create({
   container: {
@@ -163,22 +113,31 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: '100%',
   },
-  containerheader: {
-    backgroundColor: '#f2f2f2',
-    alignItems: 'center',
+  content: {
+    flex: 1,
+    paddingLeft: 10,
     justifyContent: 'center',
-    height: '10%',
-    width: '100%',
+  },
+  row: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    flex: 1,
   },
-  Button: {
-    padding : 10,
-    width: 200
+  time:{
+    alignContent: 'flex-end'
   },
-  Input: {
-    marginTop: 10
+  nome: {
+    fontWeight: 'bold',   
+    fontSize: 16,
+    color: '#000',
   },
-  title: {
-    fontSize: 25
-  }
+  text: {
+    color: 'gray',
+  },
+  time: {
+    fontSize: 12,
+    color: 'gray',
+  },
 });
+
+  
